@@ -22,19 +22,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+
+    - name: Check new tags
+      run: |
+        echo "new_tag: " ${{ steps.tag.outputs.new_tag }}
+        echo "tag: " ${{ steps.tag.outputs.tag }}
+
     - run: |
         DOCKER_IMAGE=ghcr.io/${{ github.repository }}
         VERSION=edge
         if [[ $GITHUB_REF == refs/tags/* ]]; then
-            VERSION=${GITHUB_REF#refs/tags/}
-          elif [[ $GITHUB_REF == refs/heads/* ]]; then
-            BRANCH=$(echo ${GITHUB_REF#refs/heads/} | sed -r 's#/+#-#g')
-            if [[ $BRANCH == main ]]; then
-              VERSION=latest
-            elif [[ $BRANCH == devel ]]; then
-              VERSION=stage
-            fi
+          VERSION=${GITHUB_REF#refs/tags/}
+        elif [[ $GITHUB_REF == refs/heads/* ]]; then
+          BRANCH=$(echo ${GITHUB_REF#refs/heads/} | sed -r 's#/+#-#g')
+          if [[ $BRANCH == main ]]; then
+            VERSION=latest
+          elif [[ $BRANCH == devel ]]; then
+            VERSION=stage
           fi
+        fi
         TAGS="${DOCKER_IMAGE}:${VERSION}"
         echo ::set-output name=version::${VERSION}
         echo ::set-output name=tags::${TAGS}
