@@ -6,6 +6,9 @@ on:
 jobs:
   tag:
     name: bump tags
+    outputs:
+      tag: ${{ steps.bump_tag.outputs.tag }}
+      new_tag: ${{ steps.bump_tag.outputs.new_tag }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
