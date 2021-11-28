@@ -22,6 +22,8 @@ jobs:
     needs: tag
     steps:
     - run: echo ${{needs.bump_tag.outputs.tag}} ${{needs.bump_tag.outputs.new_tag}}
+    - run: echo ${{needs.tag.outputs.tag}} ${{needs.tag.outputs.new_tag}}
+    - run: echo ${{needs.tag.bump_tag.outputs.tag}} ${{needs.tag.bump_tag.outputs.new_tag}}
   # build_image:
   #   needs: tag
   #   name: Build Docker image
