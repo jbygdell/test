@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Bump version and push tag
-      id: tag
+      id: bump_tag
       uses: anothrNick/github-tag-action@1.36.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -27,7 +27,7 @@ jobs:
     - name: Check new tags
       run: echo ${{ needs.tag.outputs.new_tag }}
     - name: Check tag
-      run: echo ${{ needs.tag.outputs.tag }}
+      run: echo ${{ needs.bump_tags.outputs.tag }}
 
     - run: |
         DOCKER_IMAGE=ghcr.io/${{ github.repository }}
@@ -46,7 +46,7 @@ jobs:
         echo ::set-output name=version::${VERSION}
         echo ::set-output name=tags::${TAGS}
         echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-        echo ${VERSION}
+        echo $VERSION
 
   job1:
     runs-on: ubuntu-latest
