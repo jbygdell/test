@@ -23,6 +23,7 @@ jobs:
 
   build_image:
     needs: tag
+    if: needs.tag.outputs.part != ''
     name: Build Docker image
     runs-on: ubuntu-latest
     steps:
