@@ -52,7 +52,10 @@ jobs:
           echo ::set-output name=version::${VERSION}
           echo ::set-output name=tags::${TAGS}
           echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+          echo ::set-output name=ref::${GITHUB_REF}
       - run: echo ${{ steps.prep.outputs.version }}
+      - run: echo ${{ steps.prep.outputs.tags }}
+      - run: echo ${{ steps.prep.outputs.ref }}
 
       # - name: Log in to the Github Container registry
       #   uses: docker/login-action@v1
@@ -73,7 +76,7 @@ jobs:
       #     context: .
       #     file: ./Dockerfile
       #     push: false
-      #     tags: ${{ steps.prep.outputs.tags }}
+      #     tags: ghcr.io/${{ github.repository }}:${{ steps.prep.outputs.tag }},ghcr.io/${{ github.repository }}:latest
       #     labels: |
       #       org.opencontainers.image.source=${{ github.event.repository.clone_url }}
       #       org.opencontainers.image.created=${{ steps.prep.outputs.created }}
