@@ -7,6 +7,7 @@ jobs:
   tag:
     name: bump tags
     outputs:
+      part: ${{ steps.bump_tag.outputs.part }}
       tag: ${{ steps.bump_tag.outputs.tag }}
       new_tag: ${{ steps.bump_tag.outputs.new_tag }}
     runs-on: ubuntu-latest
@@ -20,11 +21,6 @@ jobs:
         WITH_V: true
         DEFAULT_BUMP: patch
     - run: echo ${{ steps.bump_tag.outputs.tag }} ${{ steps.bump_tag.outputs.new_tag }}
-  job2:
-    runs-on: ubuntu-latest
-    needs: tag
-    steps:
-    - run: echo ${{needs.tag.outputs.tag}} ${{needs.tag.outputs.new_tag}}
 
   build_image:
     needs: tag
@@ -37,6 +33,8 @@ jobs:
       run: echo ${{needs.tag.outputs.new_tag}}
     - name: Check tag
       run: echo ${{ needs.tag.outputs.tag }}
+    - name: Check part
+      run: echo ${{ needs.tag.outputs.part }}
 
     - name: Prepare
       id: prep
@@ -57,4 +55,4 @@ jobs:
         echo ::set-output name=version::${VERSION}
         echo ::set-output name=tags::${TAGS}
         echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-    - run: echo ${{steps.prep.version}}
+    - run: echo ${{ steps.prep.outputs.version }}
