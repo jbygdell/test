@@ -20,21 +20,19 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         WITH_V: true
         DEFAULT_BUMP: patch
-    - run: echo ${{ steps.bump_tag.outputs.tag }} ${{ steps.bump_tag.outputs.new_tag }}
 
   build_image:
     needs: tag
     name: Build Docker image
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Check new tags
-      run: echo ${{needs.tag.outputs.new_tag}}
-    - name: Check tag
-      run: echo ${{ needs.tag.outputs.tag }}
     - name: Check part
-      run: echo ${{ needs.tag.outputs.part }}
+      run: |
+        if [ -z ${{ needs.tag.outputs.part }} ]; then
+          echo "No new tag, exiting"
+          exit 0
+        fi
+    - uses: actions/checkout@v2
 
     - name: Prepare
       id: prep
@@ -56,3 +54,44 @@ jobs:
         echo ::set-output name=tags::${TAGS}
         echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
     - run: echo ${{ steps.prep.outputs.version }}
+  # push_to_registry:
+  #   needs: tag
+  #   name: Push Docker image to Docker Hub
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: read
+  #     packages: write
+  #   steps:
+  #     - name: Check new tag
+  #       run: |
+  #         if [ -z ${{ needs.tag.outputs.part }} ]; then
+  #           echo "No new tag, exiting"
+  #           exit 0
+  #         fi
+  #     - name: Check out the repo
+  #       uses: actions/checkout@v2
+
+  #     - name: Log in to the Github Container registry
+  #       uses: docker/login-action@v1
+  #       with:
+  #         registry: ghcr.io
+  #         username: ${{ github.actor }}
+  #         password: ${{ secrets.GITHUB_TOKEN }}
+
+  #     - name: Extract metadata (tags, labels) for Docker
+  #       id: meta
+  #       uses: docker/metadata-action@v3
+  #       with:
+  #         images: ghcr.io/${{ github.repository }}
+      
+  #     - name: Build and push
+  #       uses: docker/build-push-action@v2
+  #       with:
+  #         context: .
+  #         file: ./Dockerfile
+  #         push: true
+  #         tags: ${GITHUB_REF#refs/tags/}
+  #         labels: |
+  #           org.opencontainers.image.source=${{ github.event.repository.clone_url }}
+  #           org.opencontainers.image.created=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+  #           org.opencontainers.image.revision=${{ github.sha }}
