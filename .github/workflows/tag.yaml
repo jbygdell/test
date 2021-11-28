@@ -4,7 +4,7 @@ on:
     branches:
       - master
 jobs:
-  build:
+  tag:
     name: bump tags
     runs-on: ubuntu-latest
     steps:
