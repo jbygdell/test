@@ -26,33 +26,33 @@ jobs:
     steps:
     - run: echo ${{needs.tag.outputs.tag}} ${{needs.tag.outputs.new_tag}}
 
-  # build_image:
-  #   needs: tag
-  #   name: Build Docker image
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v2
+  build_image:
+    needs: tag
+    name: Build Docker image
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
 
-  #   - name: Check new tags
-  #     run: echo ${{ needs.tag.outputs.new_tag }}
-  #   - name: Check tag
-  #     run: echo ${{ needs.bump_tag.outputs.tag }}
+    - name: Check new tags
+      run: echo ${{ needs.tag.outputs.new_tag }}
+    - name: Check tag
+      run: echo ${{ needs.bump_tag.outputs.tag }}
 
-  #   - run: |
-  #       DOCKER_IMAGE=ghcr.io/${{ github.repository }}
-  #       VERSION=edge
-  #       if [[ $GITHUB_REF == refs/tags/* ]]; then
-  #         VERSION=${GITHUB_REF#refs/tags/}
-  #       elif [[ $GITHUB_REF == refs/heads/* ]]; then
-  #         BRANCH=$(echo ${GITHUB_REF#refs/heads/} | sed -r 's#/+#-#g')
-  #         if [[ $BRANCH == main ]]; then
-  #           VERSION=latest
-  #         elif [[ $BRANCH == devel ]]; then
-  #           VERSION=stage
-  #         fi
-  #       fi
-  #       TAGS="${DOCKER_IMAGE}:${VERSION}"
-  #       echo ::set-output name=version::${VERSION}
-  #       echo ::set-output name=tags::${TAGS}
-  #       echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-  #   - run: echo ${VERSION}
+    - run: |
+        DOCKER_IMAGE=ghcr.io/${{ github.repository }}
+        VERSION=edge
+        if [[ $GITHUB_REF == refs/tags/* ]]; then
+          VERSION=${GITHUB_REF#refs/tags/}
+        elif [[ $GITHUB_REF == refs/heads/* ]]; then
+          BRANCH=$(echo ${GITHUB_REF#refs/heads/} | sed -r 's#/+#-#g')
+          if [[ $BRANCH == main ]]; then
+            VERSION=latest
+          elif [[ $BRANCH == devel ]]; then
+            VERSION=stage
+          fi
+        fi
+        TAGS="${DOCKER_IMAGE}:${VERSION}"
+        echo ::set-output name=version::${VERSION}
+        echo ::set-output name=tags::${TAGS}
+        echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+    - run: echo ${VERSION}
