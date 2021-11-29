@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: '2'
     - name: Bump version and push tag
       id: bump_tag
       uses: anothrNick/github-tag-action@1.36.0
