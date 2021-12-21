@@ -50,9 +50,7 @@ jobs:
           tags: |
             type=semver,pattern={{raw}},value=${{ needs.tag.outputs.tag }}
             type=sha
-          flavor: latest=auto
-            
-      
+
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
