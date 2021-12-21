@@ -47,10 +47,8 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: ghcr.io/${{ github.repository }}
-          flavor: prefix=v,onlatest=false
           tags: |
-            type=ref,event=tag
-            type=semver,pattern={{tag}}
+            type=semver,pattern={{raw}}
             type=sha
       
       - name: Build and push
@@ -58,7 +56,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          push: true
+          push: false
           tags: ${{ steps.meta.outputs.tags }}
           labels: |
             org.opencontainers.image.source=${{ github.event.repository.clone_url }}
