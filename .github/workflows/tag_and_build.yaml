@@ -5,6 +5,7 @@ name: Bump version
 #       - main
 on:
   pull_request:
+    types: [closed]
 
 jobs:
   tag:
