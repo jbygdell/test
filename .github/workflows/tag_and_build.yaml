@@ -2,10 +2,6 @@ name: Bump version
 
 on:
   pull_request:
-    types:
-      - closed
-      - edited
-      - opened
 
 jobs:
   test:
