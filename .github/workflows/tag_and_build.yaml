@@ -1,12 +1,10 @@
 name: Bump version
-# on:
-#   push:
-#     branches:
-#       - main
+
 on:
   pull_request:
     types:
       - closed
+      - edited
       - opened
 
 jobs:
