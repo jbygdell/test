@@ -1,10 +1,14 @@
 name: Bump version
+# on:
+#   push:
+#     branches:
+#       - main
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+
 jobs:
   tag:
+    if: github.event.pull_request.merged == true
     name: bump tags
     outputs:
       part: ${{ steps.bump_tag.outputs.part }}
@@ -30,8 +34,9 @@ jobs:
     steps:
       - name: event_number
         shell: bash
-        run: echo ${{ github.event.pull_request.number }}
-
+        run: |
+          echo "PR-number=${{ github.event.pull_request.number }}"
+          echo "github_ref=$GITHUB_REF"
   push_to_registry:
     needs: tag
     if: needs.tag.outputs.part != ''
