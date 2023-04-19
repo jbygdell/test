@@ -2,8 +2,7 @@ name: Bump version
 
 on:
   pull_request:
-    paths-ignore:
-      - "**.md"
+    types: [ closed ]
 
 jobs:
   test:
