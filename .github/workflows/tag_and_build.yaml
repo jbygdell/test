@@ -48,6 +48,8 @@ jobs:
         run: |
           echo "PR-number=${{ github.event.pull_request.number }}"
           echo "github_ref=$GITHUB_REF"
+          echo "tag=${{ needs.tag.outputs.tag }}"
+          echo "part=${{ needs.tag.outputs.part }}"
 
   push_to_registry:
     needs: tag
