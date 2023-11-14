@@ -115,10 +115,7 @@ jobs:
       - name: Automated Version Bump
         id: version-bump
         run: |
-          for name in sda-db sda-mq sda-svc; do
-            pybump set --file charts/"$name"/Chart.yaml --set-version ${{ needs.tag_release.outputs.tag }} --app-version
-            pybump bump --file charts/"$name"/Chart.yaml --level patch
-          done
+          echo "New tag: ${{ needs.tag_release.outputs.tag }}" >> README.md
         shell: bash
 
       - name: Commit latest tags
