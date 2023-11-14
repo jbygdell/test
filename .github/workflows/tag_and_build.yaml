@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Check out the repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: event_number
       shell: bash
@@ -27,7 +27,7 @@ jobs:
       new_tag: ${{ steps.bump_tag.outputs.new_tag }}
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: '0'
     - name: Bump version and push tag
@@ -61,7 +61,7 @@ jobs:
       packages: write
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Log in to the Github Container registry
         uses: docker/login-action@v2
@@ -97,8 +97,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: '0'
 
       - name: Install PyBump
         run: |
@@ -122,6 +120,6 @@ jobs:
         run: |
           git add -A
           git status
-          git commit -m "Bump chart version and set appVersion to: ${{ needs.tag_release.outputs.tag }}"
+          git commit -m "Bump chart version and set appVersion to: ${{ needs.tag.outputs.tag }}"
           git push
         shell: bash
