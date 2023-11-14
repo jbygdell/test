@@ -113,7 +113,7 @@ jobs:
       - name: Automated Version Bump
         id: version-bump
         run: |
-          echo -n "New tag: ${{ needs.tag.outputs.tag }}\n" >> README.md
+          echo -n "Latest tag: ${{ needs.tag.outputs.tag }}" > README.md
         shell: bash
 
       - name: Commit latest tags
