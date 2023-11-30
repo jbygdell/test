@@ -1,1 +1,1 @@
-Latest tag: v3.0.11
+Latest tag: v3.0.12
