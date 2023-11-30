@@ -109,6 +109,7 @@ jobs:
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git branch
           git switch -c bump
+          git pull
         shell: bash
 
       - name: Automated Version Bump
