@@ -93,6 +93,7 @@ jobs:
     if: ${{ needs.tag.outputs.tag != '' && needs.push_to_registry.result == 'success' }}
     permissions:
       contents: write
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
