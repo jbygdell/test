@@ -107,9 +107,7 @@ jobs:
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          git branch
           git switch -c bump
-          git pull origin bump
         shell: bash
 
       - name: Automated Version Bump
@@ -123,7 +121,7 @@ jobs:
           git add -A
           git status
           git commit -m "Bump chart version and set appVersion to: ${{ needs.tag.outputs.tag }}"
-          git push origin bump
+          git push --set-upstream origin bump
         shell: bash
 
       - name: Create Pull Request
