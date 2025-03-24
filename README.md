@@ -19,3 +19,5 @@ test test
 test test
 
 test test
+
+Foo version 1
