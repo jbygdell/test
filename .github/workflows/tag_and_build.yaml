@@ -37,7 +37,9 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         WITH_V: true
         DEFAULT_BUMP: patch
+        INITIAL_VERSION: '2.0.0'
         TAG_CONTEXT: branch
+        VERBOSE: true
 
   debug:
     needs: tag
