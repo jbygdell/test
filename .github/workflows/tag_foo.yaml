@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - foo
+    types: [ closed ]
 
 jobs:
   tag_release:
