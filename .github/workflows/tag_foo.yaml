@@ -8,6 +8,7 @@ on:
 
 jobs:
   tag_release:
+    if: github.event.pull_request.merged == true
     name: tag version
     outputs:
       part: ${{ steps.bump_tag.outputs.part }}
@@ -26,7 +27,7 @@ jobs:
           WITH_V: true
           DEFAULT_BUMP: patch
           TAG_CONTEXT: branch
-          DRY_RUN: true
+          DRY_RUN: false
 
       - name: print
         run: |
